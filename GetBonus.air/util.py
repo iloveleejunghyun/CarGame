@@ -66,5 +66,6 @@ def wait_click(temp_list, search_times=1, disapear=True):
         else:
             if res == True: #如果之前找到了就返回。没有找到过就继续找. 这里无法处理多图重复出现之间时间间隔过大的情况
                 break
+        sleep(1)
         
     return res
