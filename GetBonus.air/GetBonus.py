@@ -6,6 +6,9 @@ import airtest
 from airtest.core.settings import Settings as ST
 from util import *
 import sys
+import logging
+logger=logging.getLogger("airtest")
+logger.setLevel(logging.INFO)
 #只能在未连接模拟器时使用
 # dev = connect_device("Android:///")
 ST.LOG_FILE = "log.txt"
@@ -124,9 +127,34 @@ def game():
     sleep(5)
     click_dialog()
 
-# wait_click(Template(r"tpl1623756901348.png", record_pos=(0.003, 0.134), resolution=(900, 1600)))
+def train():
+    click_dialog()
+    print("移动到训练营")
+    swipe_to_collect()
+    print("查找训练营")
+    if wait_click(Template(r"tpl1624280293894.png", record_pos=(-0.292, -0.312), resolution=(900, 1600)),2):
+        print("正在训练中1")
+        return
+    wait_click(Template(r"tpl1624279237729.png", record_pos=(-0.237, -0.376), resolution=(900, 1600)),3)
+    if wait_click(Template(r"tpl1624279887092.png", record_pos=(0.352, -0.158), resolution=(900, 1600)),2):
+        print("正在训练中2")
+        return
+
+
+    print("查找教育机械师按钮")
+    wait_click(Template(r"tpl1624279261927.png", record_pos=(-0.002, 0.127), resolution=(900, 1600)),1)
+    print("滑动bar")
+    swipe(Template(r"tpl1624279324108.png", record_pos=(0.437, -0.277), resolution=(900, 1600)), vector=[-0.0014, 0.2167])
+    print("点击训练对象")
+    wait_click([Template(r"tpl1624279532252.png", record_pos=(-0.091, -0.157), resolution=(900, 1600)),Template(r"tpl1624279660843.png", record_pos=(-0.093, -0.153), resolution=(900, 1600))],1)
+    print("点击开始")
+    wait_click(Template(r"tpl1624279688744.png", record_pos=(-0.001, 0.191), resolution=(900, 1600)),3)
+    pass
+
+# while True:
+#     train().
 # click_dialog()
-# sleep(5)
+# sleep(20)
 
 while True:
     try:
