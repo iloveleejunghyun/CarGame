@@ -38,7 +38,7 @@ def check_start():
 
 def click_dialog():
 
-    wait_click([Template(r"tpl1623756901348.png", record_pos=(0.003, 0.134), resolution=(900, 1600)),Template(r"tpl1623368752644.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"yes.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"tpl1623020125057.png", record_pos=(-0.009, 0.079), resolution=(900, 1600)),Template(r"tpl1623019985426.png", record_pos=(0.0, -0.06), resolution=(900, 1600)),Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), Template(r"tpl1622984198757.png", record_pos=(0.369, 0.618), resolution=(900, 1600)),Template(r"tpl1623368961771.png", record_pos=(0.372, 0.157), resolution=(900, 1600)),Template(r"tpl1623754255589.png", record_pos=(0.281, -0.371), resolution=(900, 1600))], 3)
+    wait_click([Template(r"tpl1623756901348.png", record_pos=(0.003, 0.134), resolution=(900, 1600)),Template(r"yes.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"tpl1623020125057.png", record_pos=(-0.009, 0.079), resolution=(900, 1600)),Template(r"tpl1623019985426.png", record_pos=(0.0, -0.06), resolution=(900, 1600)),Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), Template(r"tpl1622984198757.png", record_pos=(0.369, 0.618), resolution=(900, 1600)),Template(r"tpl1623368961771.png", record_pos=(0.372, 0.157), resolution=(900, 1600)),Template(r"tpl1623754255589.png", record_pos=(0.281, -0.371), resolution=(900, 1600)),Template(r"tpl1623368752644.png", record_pos=(0.123, 0.077), resolution=(900, 1600))], 3)
 
 
 
@@ -66,7 +66,7 @@ def getBonus():
         sleep(5)
         wait_click(Template(r"tpl1622981974455.png", record_pos=(-0.422, -0.826), resolution=(900, 1600)), 1)
         click_dialog()
-        for i in range(11):
+        for i in range(10):
             sleep(60)
             print(f"waited for {i+1} minutes")
         return True
@@ -100,14 +100,21 @@ def game():
     wait_click(Template(r"tpl1623929291043.png", record_pos=(-0.258, 0.002), resolution=(900, 1600)),3)
 
     wait_click(Template(r"tpl1623754065964.png", record_pos=(-0.008, 0.206), resolution=(900, 1600)),3)
+
     wait_click(Template(r"tpl1623754090535.png", record_pos=(0.039, 0.206), resolution=(900, 1600)),3)
-    wait_click(Template(r"tpl1623758819964.png", record_pos=(-0.154, -0.054), resolution=(900, 1600)),1)
+
+    
+    if not wait_click(Template(r"tpl1623754161078.png", record_pos=(0.119, -0.373), resolution=(900, 1600)),10):
+        print("没有燃料了，可能")
+        wait_click(Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), 5)
+        return
 
     wait_click(Template(r"tpl1623754138933.png", record_pos=(0.086, -0.542), resolution=(900, 1600)),20)
     wait_click(Template(r"tpl1623754161078.png", record_pos=(0.119, -0.373), resolution=(900, 1600)),3)
-    wait_click(Template(r"tpl1623754184288.png", record_pos=(-0.121, 0.532), resolution=(900, 1600)),30)
+    wait_click(Template(r"tpl1623756736831.png", record_pos=(-0.171, 0.418), resolution=(900, 1600)), 30)
+    wait_click(Template(r"tpl1623754184288.png", record_pos=(-0.121, 0.532), resolution=(900, 1600)),3)
 
-    wait_click(Template(r"tpl1623756736831.png", record_pos=(-0.171, 0.418), resolution=(900, 1600)), 3)
+    
 
     click_dialog()
     sleep(5)
@@ -121,14 +128,23 @@ def game():
 # click_dialog()
 # sleep(5)
 
-dev = connect_device("android://127.0.0.1:5037/127.0.0.1:62001?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=MINITOUCH")
+while True:
+    try:
+        dev = connect_device("android://127.0.0.1:5037/127.0.0.1:62001?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=MINITOUCH")
+        break
+    except Exception as e:
+        print(e)
+        print("Try to connect the device after 10s")
+        sleep(10)
 for i in range(1000):
     try:
         check_start()
         sleep(5)
         collect_assets()
         game()
-        while not getBonus():
+        for i in range(30):
+            if getBonus():
+                break
             sleep(10)
     except Exception as e:
         print("error", str(e))
