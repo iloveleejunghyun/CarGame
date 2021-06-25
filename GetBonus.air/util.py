@@ -46,11 +46,13 @@ def mutiple_exists(targets,area=None,threshold=0.80,rgb=False,inti=5):
         sleep(0.2)
     return -1,None
 
-def wait_click(temp_list, search_times=1, disapear=True):
+def wait_click(name,temp_list, search_times=1, disapear=True):
+    
     if type(temp_list) is not list:
         temp_list = [temp_list]
     res = False
     cur_times = 0
+    ref = -1
     while cur_times < search_times:
         cur_times += 1
         ref, pos = mutiple_exists(temp_list)
@@ -58,7 +60,7 @@ def wait_click(temp_list, search_times=1, disapear=True):
         if ref > -1:
             
             touch(pos)
-            print(f"touch {pos}")
+            print(f"touch {pos}, index = {ref}")
             res = True
             sleep(2)
             if disapear == False:
@@ -67,5 +69,8 @@ def wait_click(temp_list, search_times=1, disapear=True):
             if res == True: #如果之前找到了就返回。没有找到过就继续找. 这里无法处理多图重复出现之间时间间隔过大的情况
                 break
         sleep(1)
-        
+    if res:
+        print(f"Found {name}")
+    else:
+        print(f"Didn't find {name}")
     return res
