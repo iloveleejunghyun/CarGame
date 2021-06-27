@@ -27,7 +27,9 @@ def check_start():
             if wait_click("重新打开应用",Template(r"tpl1623062470610.png", record_pos=(-0.161, 0.086), resolution=(900, 1600)),1, False):
                 keyevent("KEYCODE_HOME")
                 continue
-            if not wait_click("登陆",Template(r"tpl1623061904200.png", record_pos=(0.243, 0.313), resolution=(900, 1600)), 10):
+            wait_click("公告",Template(r"tpl1624622804412.png", record_pos=(0.013, -0.604), resolution=(900, 1600)),5)
+
+            if not wait_click("登陆",Template(r"tpl1623061904200.png", record_pos=(0.243, 0.313), resolution=(900, 1600)), 5):
                 continue
 
             sleep(20)
@@ -37,7 +39,6 @@ def check_start():
 
             break
     return True
-       
 
 def click_dialog():
 
@@ -104,7 +105,9 @@ def game():
 #     wait_click("墨西哥站",Template(r"tpl1623929291043.png", record_pos=(-0.258, 0.002), resolution=(900, 1600)),3)
 #     wait_click("阿根廷站",Template(r"tpl1624356747366.png", record_pos=(-0.256, 0.0), resolution=(900, 1600)),3)
 #     wait_click("阿拉斯加站",Template(r"tpl1624437208655.png", record_pos=(-0.24, -0.078), resolution=(900, 1600)),3)
-    wait_click("哥伦比亚站",Template(r"tpl1624464922862.png", record_pos=(-0.24, -0.081), resolution=(900, 1600)),3)
+#     wait_click("哥伦比亚站",Template(r"tpl1624464922862.png", record_pos=(-0.24, -0.081), resolution=(900, 1600)),3)
+    wait_click("北极站",Template(r"tpl1624801296945.png", record_pos=(-0.281, -0.076), resolution=(900, 1600)),3)
+
 
 
     wait_click("参加",Template(r"tpl1623754065964.png", record_pos=(-0.008, 0.206), resolution=(900, 1600)),3)
@@ -151,13 +154,16 @@ def train():
     wait_click("教育机械师",Template(r"tpl1624279261927.png", record_pos=(-0.002, 0.127), resolution=(900, 1600)),1)
     print("滑动bar")
     try:
-        swipe(Template(r"tpl1624441183553.png", record_pos=(0.434, -0.314), resolution=(900, 1600)), vector=[0.0035, 0.1964],duration=1)
+        swipe(Template(r"tpl1624769917261.png", record_pos=(0.439, -0.279), resolution=(900, 1600)), vector=[-0.0009, 0.1831],duration=1)
     except Exception as e:
         print(e)
         pass
 
     print("点击训练对象")
-    wait_click("大兵哥",[Template(r"tpl1624279532252.png", record_pos=(-0.091, -0.157), resolution=(900, 1600)),Template(r"tpl1624279660843.png", record_pos=(-0.093, -0.153), resolution=(900, 1600))],3)
+#     wait_click("大兵哥",[Template(r"tpl1624279532252.png", record_pos=(-0.091, -0.157), resolution=(900, 1600)),Template(r"tpl1624279660843.png", record_pos=(-0.093, -0.153), resolution=(900, 1600))],3)
+    wait_click("克拉克",[Template(r"tpl1624721843065.png", record_pos=(-0.102, -0.007), resolution=(900, 1600)),Template(r"tpl1624721859443.png", record_pos=(-0.099, -0.006), resolution=(900, 1600))],3)
+
+
     print("点击开始")
     wait_click("开始",Template(r"tpl1624279688744.png", record_pos=(-0.001, 0.191), resolution=(900, 1600)),3)
     pass
@@ -165,7 +171,7 @@ def train():
 def start_extra():
     import time
     localtime = time.localtime(time.time())
-    print(localtime)
+
     if not (localtime.tm_hour >= 21):
         print("Can't trade before 21:00")
         return
@@ -175,11 +181,13 @@ def start_extra():
         with open("trade.log", 'w'):
             pass
     # 格式化成2016-03-20 11:45:39形式
-    date =  time.strftime("%Y-%m-%d", time.localtime())
+    date =  time.strftime("%Y-%m-%d", time.localtime()) + '\n'
     with open("trade.log", 'r') as f:
         lines = f.readlines()
+        print(lines)
         if len(lines) != 0:
             line = lines[-1]
+            
             print(date, line)
             if date == line:
                 print("Have traded today")
@@ -202,7 +210,10 @@ def start_extra():
 # click_dialog()
 # sleep(20)
 # start_extra()
-# sleep(30)
+
+
+
+sleep(30)
 
 while True:
     try:

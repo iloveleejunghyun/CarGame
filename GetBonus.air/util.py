@@ -8,6 +8,8 @@ from airtest.aircv import *
 from airtest.core.api import *
 from airtest.cli.parser import cli_setup
 from airtest.core.settings import Settings as ST
+import logging
+logger=logging.getLogger("airtest")
 
 
 def match_in_predict_area(template,screen=None,rect=None):
@@ -60,7 +62,7 @@ def wait_click(name,temp_list, search_times=1, disapear=True):
         if ref > -1:
             
             touch(pos)
-            print(f"touch {pos}, index = {ref}")
+            logger.info(f"touch {pos}, index = {ref}")
             res = True
             sleep(2)
             if disapear == False:
@@ -70,7 +72,7 @@ def wait_click(name,temp_list, search_times=1, disapear=True):
                 break
         sleep(1)
     if res:
-        print(f"Found {name}")
+        logger.info(f"Found {name}")
     else:
-        print(f"Didn't find {name}")
+        logger.info(f"Didn't find {name}")
     return res
