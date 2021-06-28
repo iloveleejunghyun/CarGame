@@ -1,7 +1,7 @@
 # -*- encoding=utf8 -*-
 __author__ = "Administrator"
-
-
+# import os
+# os.system("shutdown -r -t 60")
 from airtest.core.api import *
 from airtest.core.api import *
 from airtest.aircv import *
@@ -9,7 +9,42 @@ from airtest.core.api import *
 from airtest.cli.parser import cli_setup
 from airtest.core.settings import Settings as ST
 import logging
-logger=logging.getLogger("airtest")
+# logger=logging.getLogger("airtest")
+def initLog(level=logging.DEBUG,filename="pocoLog.txt"):
+    '''初始化日志配置
+    @param level:设置的日志级别。默认：DEBUG
+    @param filename: 日志文件名。默认：当前目录下的pocoLog.txt，也可为绝对路径名
+    '''
+    logger = logging.getLogger(__name__.split('.')[0])    #日志名为当前包路径project.util.common的
+    logger.setLevel(level)
+    if logger.handlers:
+        for handler in logger.handlers:
+            logger.removeHandler(handler)
+    streamHandler = logging.StreamHandler(sys.stderr) #输出到控制台
+    fileHandler=logging.FileHandler(filename=filename,mode='w',encoding='utf-8',delay=False)
+    LOG_FORMAT1='[%(asctime)s] [%(levelname)s] <%(name)s> (%(lineno)d) %(message)s'  
+    LOG_FORMAT2='[%(asctime)s] [%(levelname)s] <%(name)s> <%(pathname)s]> (%(lineno)d) %(message)s'
+    formatter1 = logging.Formatter(
+        fmt=LOG_FORMAT1,
+        datefmt='%Y-%m-%d  %H:%M:%S'
+    )
+    formatter2 = logging.Formatter(
+        fmt=LOG_FORMAT2,
+        datefmt='%Y-%m-%d  %H:%M:%S'
+    )    
+    streamHandler.setFormatter(formatter1)
+    fileHandler.setFormatter(formatter2)
+    logger.addHandler(streamHandler)
+    logger.addHandler(fileHandler)
+    #logger.debug('这里是测试用，initlog的logger的debug日志') 
+def setPocoLog(name):
+    '''设置poco日志配置'''
+    pocoLogDIR= os.path.join(ST.PROJECT_ROOT, 'logDir') #poco日志目录
+    pocoLogFile=os.path.join(pocoLogDIR,'pocoLog.txt')  #poco日志文件名
+    initLog(level=logging.INFO,filename=pocoLogFile)    #poco日志初始化
+    logger=logging.getLogger(name)
+    return logger
+logger = setPocoLog(__name__) #日志方法调用
 
 
 def match_in_predict_area(template,screen=None,rect=None):
@@ -76,3 +111,4 @@ def wait_click(name,temp_list, search_times=1, disapear=True):
     else:
         logger.info(f"Didn't find {name}")
     return res
+

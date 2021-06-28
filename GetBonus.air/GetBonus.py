@@ -6,15 +6,15 @@ import airtest
 from airtest.core.settings import Settings as ST
 from util import *
 import sys
+import os
 import logging
 logger=logging.getLogger("airtest")
 logger.setLevel(logging.INFO)
-#只能在未连接模拟器时使用
-# dev = connect_device("Android:///")
 ST.LOG_FILE = "log.txt"
 ST.CVSTRATEGY = ['tpl']
 ST.THRESHOLD = 0.9
 
+logger = setPocoLog(__name__) #日志方法调用
 
 def check_start():
     if not exists(Template(r"tpl1623061463746.png", record_pos=(-0.438, -0.807), resolution=(900, 1600))):
@@ -42,7 +42,7 @@ def check_start():
 
 def click_dialog():
 
-    wait_click("返回",[Template(r"tpl1623756901348.png", record_pos=(0.003, 0.134), resolution=(900, 1600)),Template(r"tpl1624465507828.png", record_pos=(0.297, -0.183), resolution=(900, 1600)),Template(r"yes.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"tpl1623020125057.png", record_pos=(-0.009, 0.079), resolution=(900, 1600)),Template(r"tpl1623019985426.png", record_pos=(0.0, -0.06), resolution=(900, 1600)),Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), Template(r"tpl1622984198757.png", record_pos=(0.369, 0.618), resolution=(900, 1600)),Template(r"tpl1623368961771.png", record_pos=(0.372, 0.157), resolution=(900, 1600)),Template(r"tpl1623368752644.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"back1.png", record_pos=(0.123, 0.077), resolution=(900, 1600))], 3)
+    wait_click("返回",[Template(r"tpl1624801775279.png", record_pos=(0.074, -0.559), resolution=(900, 1600)),Template(r"tpl1623756901348.png", record_pos=(0.003, 0.134), resolution=(900, 1600)),Template(r"tpl1624465507828.png", record_pos=(0.297, -0.183), resolution=(900, 1600)),Template(r"yes.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"tpl1623020125057.png", record_pos=(-0.009, 0.079), resolution=(900, 1600)),Template(r"tpl1623019985426.png", record_pos=(0.0, -0.06), resolution=(900, 1600)),Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), Template(r"tpl1622984198757.png", record_pos=(0.369, 0.618), resolution=(900, 1600)),Template(r"tpl1623368961771.png", record_pos=(0.372, 0.157), resolution=(900, 1600)),Template(r"tpl1623368752644.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"back1.png", record_pos=(0.123, 0.077), resolution=(900, 1600))], 3)
 
 
 
@@ -64,16 +64,16 @@ def getBonus():
 
             
         if not wait_click("广告退出",[Template(r"tpl1622981974455.png", record_pos=(-0.422, -0.826), resolution=(900, 1600))], 3):
-            sys.stderr.write("can't find close advertisement")
+            logger.info("can't find close advertisement")
             touch((71,62))
-            print(f"touch (71,62)")
+            logger.info(f"touch (71,62)")
         wait_click("安装退出",[Template(r"tpl1623229848480.png", record_pos=(0.267, 0.811), resolution=(900, 1600)),Template(r"exit2.png", resolution=(900, 1600))], 3)
         sleep(5)
         wait_click("广告退出",Template(r"tpl1622981974455.png", record_pos=(-0.422, -0.826), resolution=(900, 1600)), 1)
         click_dialog()
         for i in range(0):
             sleep(60)
-            print(f"waited for {i+1} minutes")
+            logger.info(f"waited for {i+1} minutes")
         return True
     else:
         return False
@@ -85,7 +85,7 @@ def swipe_to_collect():
     for  _ in range(2):
         swipe((900,250),(250,900))
         sleep(1)
-    swipe((900,900),(300,450))
+    swipe((900,900),(250,450))
     sleep(1)
     
 def collect_assets():
@@ -101,6 +101,10 @@ def game():
     click_dialog()
     if not wait_click("比赛",Template(r"tpl1623754023851.png", record_pos=(-0.339, 0.486), resolution=(900, 1600)),3):
         return False
+    if wait_click("主任",Template(r"tpl1624804733428.png", record_pos=(-0.287, -0.313), resolution=(900, 1600)), 1):
+        wait_click("一决高下",Template(r"tpl1624804788104.png", record_pos=(-0.004, -0.176), resolution=(900, 1600)), 1)
+
+
 #     wait_click(Template(r"tpl1623754046432.png", record_pos=(-0.237, -0.073), resolution=(900, 1600)),3)
 #     wait_click("墨西哥站",Template(r"tpl1623929291043.png", record_pos=(-0.258, 0.002), resolution=(900, 1600)),3)
 #     wait_click("阿根廷站",Template(r"tpl1624356747366.png", record_pos=(-0.256, 0.0), resolution=(900, 1600)),3)
@@ -116,7 +120,7 @@ def game():
 
     
     if not wait_click("官方预选赛",Template(r"tpl1623754161078.png", record_pos=(0.119, -0.373), resolution=(900, 1600)),10):
-        print("没有燃料了，可能")
+        logger.info("没有燃料了，可能")
         wait_click("返回",Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), 5)
         return
 
@@ -137,34 +141,36 @@ def game():
 
 def train():
     click_dialog()
-    print("移动到训练营")
+    logger.info("移动到训练营")
     swipe_to_collect()
-    print("查找训练营")
+    logger.info("查找训练营")
     if wait_click("训练中",Template(r"tpl1624280293894.png", record_pos=(-0.292, -0.312), resolution=(900, 1600)),2):
-        print("正在训练中1")
+        logger.info("正在训练中1")
         click_dialog()
         return
-    wait_click("空闲训练营",Template(r"tpl1624279237729.png", record_pos=(-0.237, -0.376), resolution=(900, 1600)),2)
+    if not wait_click("空闲训练营",Template(r"tpl1624279237729.png", record_pos=(-0.237, -0.376), resolution=(900, 1600)),2):
+        logger.info("没有找到空闲训练营，可能在升级中")
+        return
     if wait_click("训练中2",Template(r"tpl1624279887092.png", record_pos=(0.352, -0.158), resolution=(900, 1600)),2):
-        print("正在训练中2")
+        logger.info("正在训练中2")
         return
 
 
-    print("查找教育机械师按钮")
+    logger.info("查找教育机械师按钮")
     wait_click("教育机械师",Template(r"tpl1624279261927.png", record_pos=(-0.002, 0.127), resolution=(900, 1600)),1)
-    print("滑动bar")
+    logger.info("滑动bar")
     try:
         swipe(Template(r"tpl1624769917261.png", record_pos=(0.439, -0.279), resolution=(900, 1600)), vector=[-0.0009, 0.1831],duration=1)
     except Exception as e:
-        print(e)
+        logger.error(e)
         pass
 
-    print("点击训练对象")
+    logger.info("点击训练对象")
 #     wait_click("大兵哥",[Template(r"tpl1624279532252.png", record_pos=(-0.091, -0.157), resolution=(900, 1600)),Template(r"tpl1624279660843.png", record_pos=(-0.093, -0.153), resolution=(900, 1600))],3)
     wait_click("克拉克",[Template(r"tpl1624721843065.png", record_pos=(-0.102, -0.007), resolution=(900, 1600)),Template(r"tpl1624721859443.png", record_pos=(-0.099, -0.006), resolution=(900, 1600))],3)
 
 
-    print("点击开始")
+    logger.info("点击开始")
     wait_click("开始",Template(r"tpl1624279688744.png", record_pos=(-0.001, 0.191), resolution=(900, 1600)),3)
     pass
 
@@ -173,31 +179,31 @@ def start_extra():
     localtime = time.localtime(time.time())
 
     if not (localtime.tm_hour >= 21):
-        print("Can't trade before 21:00")
+        logger.info("Can't trade before 21:00")
         return
     import os
     if not os.path.exists("trade.log"):
-        print("create trade.log")
+        logger.info("create trade.log")
         with open("trade.log", 'w'):
             pass
     # 格式化成2016-03-20 11:45:39形式
     date =  time.strftime("%Y-%m-%d", time.localtime()) + '\n'
     with open("trade.log", 'r') as f:
         lines = f.readlines()
-        print(lines)
+        logger.info(lines)
         if len(lines) != 0:
             line = lines[-1]
             
-            print(date, line)
+            logger.info(date, line)
             if date == line:
-                print("Have traded today")
+                logger.info("Have traded today")
                 return
-    print("Start to trade today")
+    logger.info("Start to trade today")
     res = os.system('cd D:\Tiger_Trade\Tiger_Trade2.air && D:\AirtestIDE\AirtestIDE runner D:\Tiger_Trade\Tiger_Trade2.air  --log D:\Tiger_Trade\log')
-    print(res)
+    logger.info(res)
     with open("trade.log", 'a') as f:
         f.write(date)
-    print("Finish trade")
+    logger.info("Finish trade")
     return
 # swipe_to_collect()
 # sleep(20)
@@ -213,15 +219,13 @@ def start_extra():
 
 
 
-sleep(30)
-
 while True:
     try:
         dev = connect_device("android://127.0.0.1:5037/127.0.0.1:62001?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=MINITOUCH")
         break
     except Exception as e:
-        print(e)
-        print("Try to connect the device after 10s")
+        logger.info(e)
+        logger.info("Try to connect the device after 10s")
         sleep(10)
 for i in range(1000):
     try:
@@ -241,10 +245,12 @@ for i in range(1000):
                 break
             sleep(10)
     except Exception as e:
-        print("error", str(e))
+        logger.error("error", str(e))
+        logger.error("需要重启模拟器")
+        os.system("shutdown -r -t 120")
         if type(e) is airtest.core.error.AdbShellError:
-            sys.stderr.write("需要重启模拟器")
-            break
+            
+            pass
         pass
     
 
