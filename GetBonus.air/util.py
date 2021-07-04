@@ -42,6 +42,7 @@ def setPocoLog(name):
     pocoLogDIR= os.path.join(ST.PROJECT_ROOT, 'logDir') #poco日志目录
     pocoLogFile=os.path.join(pocoLogDIR,'pocoLog.txt')  #poco日志文件名
     initLog(level=logging.INFO,filename=pocoLogFile)    #poco日志初始化
+    print(name)
     logger=logging.getLogger(name)
     return logger
 logger = setPocoLog(__name__) #日志方法调用

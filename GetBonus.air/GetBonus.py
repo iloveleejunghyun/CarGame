@@ -8,16 +8,53 @@ from util import *
 import sys
 import os
 import logging
-logger=logging.getLogger("airtest")
-logger.setLevel(logging.INFO)
+logger1=logging.getLogger("airtest")
+logger1.setLevel(logging.INFO)
 ST.LOG_FILE = "log.txt"
 ST.CVSTRATEGY = ['tpl']
 ST.THRESHOLD = 0.9
-
-logger = setPocoLog(__name__) #日志方法调用
+# print(" ", __name__)
+# logger=logging.getLogger("airtest")
+# def initLog(level=logging.DEBUG,filename="pocoLog.txt"):
+#     '''初始化日志配置
+#     @param level:设置的日志级别。默认：DEBUG
+#     @param filename: 日志文件名。默认：当前目录下的pocoLog.txt，也可为绝对路径名
+#     '''
+#     logger = logging.getLogger(__name__.split('.')[0])    #日志名为当前包路径project.util.common的
+#     logger.setLevel(level)
+#     if logger.handlers:
+#         for handler in logger.handlers:
+#             logger.removeHandler(handler)
+#     streamHandler = logging.StreamHandler(sys.stderr) #输出到控制台
+#     fileHandler=logging.FileHandler(filename=filename,mode='w',encoding='utf-8',delay=False)
+#     LOG_FORMAT1='[%(asctime)s] [%(levelname)s] <%(name)s> (%(lineno)d) %(message)s'  
+#     LOG_FORMAT2='[%(asctime)s] [%(levelname)s] <%(name)s> <%(pathname)s]> (%(lineno)d) %(message)s'
+#     formatter1 = logging.Formatter(
+#         fmt=LOG_FORMAT1,
+#         datefmt='%Y-%m-%d  %H:%M:%S'
+#     )
+#     formatter2 = logging.Formatter(
+#         fmt=LOG_FORMAT2,
+#         datefmt='%Y-%m-%d  %H:%M:%S'
+#     )    
+#     streamHandler.setFormatter(formatter1)
+#     fileHandler.setFormatter(formatter2)
+#     logger.addHandler(streamHandler)
+#     logger.addHandler(fileHandler)
+#     #logger.debug('这里是测试用，initlog的logger的debug日志') 
+# def setPocoLog(name):
+#     '''设置poco日志配置'''
+#     pocoLogDIR= os.path.join(ST.PROJECT_ROOT, 'logDir') #poco日志目录
+#     pocoLogFile=os.path.join(pocoLogDIR,'pocoLog.txt')  #poco日志文件名
+#     initLog(level=logging.INFO,filename=pocoLogFile)    #poco日志初始化
+#     print(name)
+#     logger=logging.getLogger(name)
+#     return logger
+# logger = setPocoLog(__name__) #日志方法调用
 
 def check_start():
-    if not exists(Template(r"tpl1623061463746.png", record_pos=(-0.438, -0.807), resolution=(900, 1600))):
+
+    if not exists(Template(r"tpl1623061463746.png", record_pos=(-0.438, -0.807), resolution=(900, 1600))) and not exists(Template(r"tpl1624884387459.png", record_pos=(-0.442, -0.809), resolution=(900, 1600))):
         while True:
             
             stop_app("com.kairogame.android.Paddock2")
@@ -42,7 +79,7 @@ def check_start():
 
 def click_dialog():
 
-    wait_click("返回",[Template(r"tpl1624801775279.png", record_pos=(0.074, -0.559), resolution=(900, 1600)),Template(r"tpl1623756901348.png", record_pos=(0.003, 0.134), resolution=(900, 1600)),Template(r"tpl1624465507828.png", record_pos=(0.297, -0.183), resolution=(900, 1600)),Template(r"yes.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"tpl1623020125057.png", record_pos=(-0.009, 0.079), resolution=(900, 1600)),Template(r"tpl1623019985426.png", record_pos=(0.0, -0.06), resolution=(900, 1600)),Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), Template(r"tpl1622984198757.png", record_pos=(0.369, 0.618), resolution=(900, 1600)),Template(r"tpl1623368961771.png", record_pos=(0.372, 0.157), resolution=(900, 1600)),Template(r"tpl1623368752644.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"back1.png", record_pos=(0.123, 0.077), resolution=(900, 1600))], 3)
+    wait_click("返回",[Template(r"tpl1624801775279.png", record_pos=(0.074, -0.559), resolution=(900, 1600)),Template(r"tpl1623756901348.png", record_pos=(0.003, 0.134), resolution=(900, 1600)),Template(r"tpl1624465507828.png", record_pos=(0.297, -0.183), resolution=(900, 1600)),Template(r"yes.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"tpl1623020125057.png", record_pos=(-0.009, 0.079), resolution=(900, 1600)),Template(r"tpl1623019985426.png", record_pos=(0.0, -0.06), resolution=(900, 1600)),Template(r"tpl1622893722615.png", record_pos=(0.369, 0.618), resolution=(900, 1600)), Template(r"tpl1622984198757.png", record_pos=(0.369, 0.618), resolution=(900, 1600)),Template(r"tpl1623368961771.png", record_pos=(0.372, 0.157), resolution=(900, 1600)),Template(r"tpl1623368752644.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"back1.png", record_pos=(0.123, 0.077), resolution=(900, 1600)),Template(r"tpl1625319122618.png", record_pos=(0.371, 0.483), resolution=(900, 1600))], 3)
 
 
 
@@ -104,12 +141,6 @@ def game():
     if wait_click("主任",Template(r"tpl1624804733428.png", record_pos=(-0.287, -0.313), resolution=(900, 1600)), 1):
         wait_click("一决高下",Template(r"tpl1624804788104.png", record_pos=(-0.004, -0.176), resolution=(900, 1600)), 1)
 
-
-#     wait_click(Template(r"tpl1623754046432.png", record_pos=(-0.237, -0.073), resolution=(900, 1600)),3)
-#     wait_click("墨西哥站",Template(r"tpl1623929291043.png", record_pos=(-0.258, 0.002), resolution=(900, 1600)),3)
-#     wait_click("阿根廷站",Template(r"tpl1624356747366.png", record_pos=(-0.256, 0.0), resolution=(900, 1600)),3)
-#     wait_click("阿拉斯加站",Template(r"tpl1624437208655.png", record_pos=(-0.24, -0.078), resolution=(900, 1600)),3)
-#     wait_click("哥伦比亚站",Template(r"tpl1624464922862.png", record_pos=(-0.24, -0.081), resolution=(900, 1600)),3)
     wait_click("北极站",Template(r"tpl1624801296945.png", record_pos=(-0.281, -0.076), resolution=(900, 1600)),3)
 
 
@@ -166,8 +197,10 @@ def train():
         pass
 
     logger.info("点击训练对象")
-#     wait_click("大兵哥",[Template(r"tpl1624279532252.png", record_pos=(-0.091, -0.157), resolution=(900, 1600)),Template(r"tpl1624279660843.png", record_pos=(-0.093, -0.153), resolution=(900, 1600))],3)
-    wait_click("克拉克",[Template(r"tpl1624721843065.png", record_pos=(-0.102, -0.007), resolution=(900, 1600)),Template(r"tpl1624721859443.png", record_pos=(-0.099, -0.006), resolution=(900, 1600))],3)
+#     wait_click("克拉克",[Template(r"tpl1624980904312.png", record_pos=(-0.073, -0.082), resolution=(900, 1600)),Template(r"tpl1624980929855.png", record_pos=(-0.073, -0.077), resolution=(900, 1600))],3)
+    wait_click("宋传伟",[Template(r"tpl1625320015868.png", record_pos=(-0.151, -0.154), resolution=(900, 1600)),Template(r"tpl1625320024597.png", record_pos=(-0.152, -0.152), resolution=(900, 1600))],3)
+
+
 
 
     logger.info("点击开始")
@@ -194,12 +227,12 @@ def start_extra():
         if len(lines) != 0:
             line = lines[-1]
             
-            logger.info(date, line)
+            logger.info(date + ","+line)
             if date == line:
                 logger.info("Have traded today")
                 return
     logger.info("Start to trade today")
-    res = os.system('cd D:\Tiger_Trade\Tiger_Trade2.air && D:\AirtestIDE\AirtestIDE runner D:\Tiger_Trade\Tiger_Trade2.air  --log D:\Tiger_Trade\log')
+    res = os.system('D: && cd D:\Tiger_Trade\Tiger_Trade2.air && D:\AirtestIDE\AirtestIDE runner D:\Tiger_Trade\Tiger_Trade2.air  --log D:\Tiger_Trade\log')
     logger.info(res)
     with open("trade.log", 'a') as f:
         f.write(date)
@@ -240,7 +273,7 @@ for i in range(1000):
         game()
 #         click_dialog()
 #         game()
-        for i in range(90):
+        for i in range(45):
             if getBonus():
                 break
             sleep(10)
