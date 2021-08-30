@@ -13,44 +13,6 @@ logger1.setLevel(logging.INFO)
 ST.LOG_FILE = "log.txt"
 ST.CVSTRATEGY = ['tpl']
 ST.THRESHOLD = 0.9
-# print(" ", __name__)
-# logger=logging.getLogger("airtest")
-# def initLog(level=logging.DEBUG,filename="pocoLog.txt"):
-#     '''初始化日志配置
-#     @param level:设置的日志级别。默认：DEBUG
-#     @param filename: 日志文件名。默认：当前目录下的pocoLog.txt，也可为绝对路径名
-#     '''
-#     logger = logging.getLogger(__name__.split('.')[0])    #日志名为当前包路径project.util.common的
-#     logger.setLevel(level)
-#     if logger.handlers:
-#         for handler in logger.handlers:
-#             logger.removeHandler(handler)
-#     streamHandler = logging.StreamHandler(sys.stderr) #输出到控制台
-#     fileHandler=logging.FileHandler(filename=filename,mode='w',encoding='utf-8',delay=False)
-#     LOG_FORMAT1='[%(asctime)s] [%(levelname)s] <%(name)s> (%(lineno)d) %(message)s'  
-#     LOG_FORMAT2='[%(asctime)s] [%(levelname)s] <%(name)s> <%(pathname)s]> (%(lineno)d) %(message)s'
-#     formatter1 = logging.Formatter(
-#         fmt=LOG_FORMAT1,
-#         datefmt='%Y-%m-%d  %H:%M:%S'
-#     )
-#     formatter2 = logging.Formatter(
-#         fmt=LOG_FORMAT2,
-#         datefmt='%Y-%m-%d  %H:%M:%S'
-#     )    
-#     streamHandler.setFormatter(formatter1)
-#     fileHandler.setFormatter(formatter2)
-#     logger.addHandler(streamHandler)
-#     logger.addHandler(fileHandler)
-#     #logger.debug('这里是测试用，initlog的logger的debug日志') 
-# def setPocoLog(name):
-#     '''设置poco日志配置'''
-#     pocoLogDIR= os.path.join(ST.PROJECT_ROOT, 'logDir') #poco日志目录
-#     pocoLogFile=os.path.join(pocoLogDIR,'pocoLog.txt')  #poco日志文件名
-#     initLog(level=logging.INFO,filename=pocoLogFile)    #poco日志初始化
-#     print(name)
-#     logger=logging.getLogger(name)
-#     return logger
-# logger = setPocoLog(__name__) #日志方法调用
 
 def check_start():
 
@@ -68,9 +30,12 @@ def check_start():
 
             if not wait_click("登陆",Template(r"tpl1623061904200.png", record_pos=(0.243, 0.313), resolution=(900, 1600)), 5):
                 continue
-
-            sleep(20)
-
+            wait_click("空进度", Template(r"tpl1626518252989.png", record_pos=(0.002, 0.491), resolution=(900, 1600)), 3)
+            wait_click("空进度", Template(r"tpl1626518252989.png", record_pos=(0.002, 0.491), resolution=(900, 1600)), 3)
+            if not wait_click("开始加载进度", Template(r"tpl1626519170410.png", record_pos=(-0.273, 0.488), resolution=(900, 1600)),15,True):
+                continue
+            add_friend()
+                
             if not wait_click("点击开始",Template(r"tpl1623062004226.png", record_pos=(-0.002, 0.176), resolution=(900, 1600)), 10):
                 continue
 
@@ -141,9 +106,11 @@ def game():
     if wait_click("主任",Template(r"tpl1624804733428.png", record_pos=(-0.287, -0.313), resolution=(900, 1600)), 1):
         wait_click("一决高下",Template(r"tpl1624804788104.png", record_pos=(-0.004, -0.176), resolution=(900, 1600)), 1)
 
-    wait_click("北极站",Template(r"tpl1624801296945.png", record_pos=(-0.281, -0.076), resolution=(900, 1600)),3)
-
-
+    try:
+        swipe(Template(r"tpl1626276502228.png", record_pos=(0.438, -0.422), resolution=(900, 1600)), vector=[0.0026, 0.0515])
+    except:
+        pass
+    wait_click("芬兰站",Template(r"tpl1627227095097.png", record_pos=(-0.284, -0.32), resolution=(900, 1600)),3)
 
     wait_click("参加",Template(r"tpl1623754065964.png", record_pos=(-0.008, 0.206), resolution=(900, 1600)),3)
 
@@ -191,15 +158,15 @@ def train():
     wait_click("教育机械师",Template(r"tpl1624279261927.png", record_pos=(-0.002, 0.127), resolution=(900, 1600)),1)
     logger.info("滑动bar")
     try:
-        swipe(Template(r"tpl1624769917261.png", record_pos=(0.439, -0.279), resolution=(900, 1600)), vector=[-0.0009, 0.1831],duration=1)
+        swipe(Template(r"tpl1624769917261.png", record_pos=(0.439, -0.279), resolution=(900, 1600)), vector=[-0.0009, 0.1431],duration=1)
     except Exception as e:
         logger.error(e)
         pass
 
     logger.info("点击训练对象")
-#     wait_click("克拉克",[Template(r"tpl1624980904312.png", record_pos=(-0.073, -0.082), resolution=(900, 1600)),Template(r"tpl1624980929855.png", record_pos=(-0.073, -0.077), resolution=(900, 1600))],3)
-    wait_click("宋传伟",[Template(r"tpl1625320015868.png", record_pos=(-0.151, -0.154), resolution=(900, 1600)),Template(r"tpl1625320024597.png", record_pos=(-0.152, -0.152), resolution=(900, 1600))],3)
 
+#     wait_click("李桃山",[Template(r"tpl1626276679567.png", record_pos=(-0.091, -0.458), resolution=(900, 1600)),Template(r"tpl1626276710177.png", record_pos=(-0.089, -0.454), resolution=(900, 1600)),],3)
+    wait_click("梅岭为",[Template(r"tpl1626277488546.png", record_pos=(-0.152, -0.08), resolution=(900, 1600)), Template(r"tpl1626277497140.png", record_pos=(-0.144, -0.079), resolution=(900, 1600))],3)
 
 
 
@@ -207,7 +174,16 @@ def train():
     wait_click("开始",Template(r"tpl1624279688744.png", record_pos=(-0.001, 0.191), resolution=(900, 1600)),3)
     pass
 
-def start_extra():
+def add_friend():
+    if wait_click("找朋友提示",Template(r"tpl1626518647623.png", record_pos=(-0.01, -0.798), resolution=(900, 1600))):
+        wait_click("申请", Template(r"tpl1626518785819.png", record_pos=(-0.223, 0.006), resolution=(900, 1600)))
+        wait_click("返回", Template(r"tpl1626518896048.png", record_pos=(0.362, 0.61), resolution=(900, 1600)))
+        wait_click("返回", Template(r"tpl1626518896048.png", record_pos=(0.362, 0.61), resolution=(900, 1600)))
+        return True
+    return False
+
+
+def start_trader():
     import time
     localtime = time.localtime(time.time())
 
@@ -238,6 +214,14 @@ def start_extra():
         f.write(date)
     logger.info("Finish trade")
     return
+
+def start_idle_hero():
+
+    logger.info("Start to check idle hero")
+    res = os.system('D: && cd D:\IdleHero\IdleHero.air && D:\AirtestIDE\AirtestIDE runner D:\IdleHero\IdleHero.air --device Windows:/// --log D:\IdleHero\log')
+    logger.info(res)
+    logger.info("Finish idle hero")
+    return
 # swipe_to_collect()
 # sleep(20)
 
@@ -248,8 +232,12 @@ def start_extra():
 # dev = connect_device("android://127.0.0.1:5037/127.0.0.1:62001?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=MINITOUCH")
 # click_dialog()
 # sleep(20)
-# start_extra()
-
+# start_trader()
+# try:
+#     swipe(Template(r"tpl1626276502228.png", record_pos=(0.438, -0.422), resolution=(900, 1600)), vector=[0.0026, 0.0415])
+# except:
+#     pass
+# sleep(100)
 
 
 while True:
@@ -260,9 +248,11 @@ while True:
         logger.info(e)
         logger.info("Try to connect the device after 10s")
         sleep(10)
-for i in range(1000):
+for i in range(100000):
     try:
-        start_extra()
+        start_idle_hero()
+        sleep(5)
+        start_trader()
         sleep(5)
         check_start()
         sleep(5)
@@ -278,9 +268,9 @@ for i in range(1000):
                 break
             sleep(10)
     except Exception as e:
-        logger.error("error", str(e))
+        logger.error("error " + str(e))
         logger.error("需要重启模拟器")
-        os.system("shutdown -r -t 120")
+#         os.system("shutdown -r -t 120")
         if type(e) is airtest.core.error.AdbShellError:
             
             pass
