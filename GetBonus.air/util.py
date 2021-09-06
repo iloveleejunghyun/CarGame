@@ -84,7 +84,7 @@ def mutiple_exists(targets,area=None,threshold=0.80,rgb=False,inti=5):
         sleep(0.2)
     return -1,None
 
-def wait_click(name,temp_list, search_times=1, disapear=True):
+def wait_click(name,temp_list, search_times=1, disapear=True, double=False):
     
     if type(temp_list) is not list:
         temp_list = [temp_list]
@@ -96,7 +96,9 @@ def wait_click(name,temp_list, search_times=1, disapear=True):
         ref, pos = mutiple_exists(temp_list)
         
         if ref > -1:
-            
+            if double:
+                touch(pos)
+                sleep(1)
             touch(pos)
             logger.info(f"touch {pos}, index = {ref}")
             res = True

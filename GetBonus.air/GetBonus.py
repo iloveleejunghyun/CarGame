@@ -17,7 +17,9 @@ ST.THRESHOLD = 0.9
 def check_start():
 
     if not exists(Template(r"tpl1623061463746.png", record_pos=(-0.438, -0.807), resolution=(900, 1600))) and not exists(Template(r"tpl1624884387459.png", record_pos=(-0.442, -0.809), resolution=(900, 1600))):
-        while True:
+        for i in range(50):
+            if i == 49:
+                return False
             
             stop_app("com.kairogame.android.Paddock2")
             sleep(5)
@@ -106,11 +108,19 @@ def game():
     if wait_click("主任",Template(r"tpl1624804733428.png", record_pos=(-0.287, -0.313), resolution=(900, 1600)), 1):
         wait_click("一决高下",Template(r"tpl1624804788104.png", record_pos=(-0.004, -0.176), resolution=(900, 1600)), 1)
 
-    try:
-        swipe(Template(r"tpl1626276502228.png", record_pos=(0.438, -0.422), resolution=(900, 1600)), vector=[0.0026, 0.0515])
-    except:
-        pass
-    wait_click("芬兰站",Template(r"tpl1627227095097.png", record_pos=(-0.284, -0.32), resolution=(900, 1600)),3)
+#     try:
+#         swipe(Template(r"tpl1626276502228.png", record_pos=(0.438, -0.422), resolution=(900, 1600)), vector=[0.0026, 0.0515])
+#     except:
+#         pass
+#     wait_click("芬兰站",Template(r"tpl1627227095097.png", record_pos=(-0.284, -0.32), resolution=(900, 1600)),3)
+    for _ in range(10):
+        keyevent("KEYCODE_DPAD_DOWN")
+
+    for _ in range(33):
+        if wait_click("未完成车迷",Template(r"tpl1630932951854.png", record_pos=(-0.183, 0.122), resolution=(900, 1600)),1,False):
+            break
+        keyevent("KEYCODE_DPAD_DOWN")
+    wait_click("手指",Template(r"tpl1630933196968.png", record_pos=(-0.423, -0.397), resolution=(900, 1600)))
 
     wait_click("参加",Template(r"tpl1623754065964.png", record_pos=(-0.008, 0.206), resolution=(900, 1600)),3)
 
@@ -182,7 +192,26 @@ def add_friend():
         return True
     return False
 
+def learn_skill():
+    wait_click("团队",Template(r"tpl1630930680953.png", record_pos=(0.279, 0.364), resolution=(900, 1600)))
+    wait_click("第二组", Template(r"tpl1630930696121.png", record_pos=(0.209, 0.273), resolution=(900, 1600)))
+    wait_click("角色2", Template(r"tpl1630930715137.png", record_pos=(-0.223, -0.486), resolution=(900, 1600)),3,False)
 
+
+    for _ in range(7):
+        wait_click("学习技能",[Template(r"tpl1630929363516.png", record_pos=(0.148, 0.123), resolution=(900, 1600)),Template(r"tpl1630929447346.png", record_pos=(0.146, 0.117), resolution=(900, 1600))])
+        for i in range(10):
+            if not wait_click("技能等级",[Template(r"tpl1630930243435.png", record_pos=(0.159, -0.511), resolution=(900, 1600)),Template(r"tpl1630930225676.png", record_pos=(0.157, -0.432), resolution=(900, 1600)),Template(r"tpl1630930212625.png", record_pos=(0.153, -0.357), resolution=(900, 1600)),Template(r"tpl1630930196606.png", record_pos=(0.157, -0.434), resolution=(900, 1600)),Template(r"tpl1630930190515.png", record_pos=(0.153, -0.281), resolution=(900, 1600)),Template(r"tpl1630930184326.png", record_pos=(0.154, -0.204), resolution=(900, 1600)),Template(r"tpl1630930159698.png", record_pos=(0.157, -0.281), resolution=(900, 1600)),Template(r"tpl1630930154112.png", record_pos=(0.154, -0.36), resolution=(900, 1600))],1,False,double=True):
+                break
+            if not wait_click("好的", [Template(r"tpl1630929784862.png", record_pos=(0.0, 0.093), resolution=(900, 1600))]):
+                if wait_click("否", [Template(r"tpl1630929863915.png", record_pos=(0.203, -0.047), resolution=(900, 1600))]):
+                    break
+
+
+        wait_click("返回", Template(r"tpl1630929585829.png", record_pos=(0.368, 0.482), resolution=(900, 1600)),1)
+        wait_click("右箭头", Template(r"tpl1630929645880.png", record_pos=(0.406, -0.561), resolution=(900, 1600)),3, False)
+    click_dialog()
+    
 def start_trader():
     import time
     localtime = time.localtime(time.time())
@@ -222,10 +251,10 @@ def start_idle_hero():
     logger.info(res)
     logger.info("Finish idle hero")
     return
-# swipe_to_collect()
-# sleep(20)
 
 
+# game()
+# sleep(200)
 # sleep(10)
 # while True:
 #     train()
@@ -250,19 +279,22 @@ while True:
         sleep(10)
 for i in range(100000):
     try:
-        start_idle_hero()
-        sleep(5)
+#         start_idle_hero()
+#         sleep(5)
         start_trader()
         sleep(5)
-        check_start()
+        if not check_start():
+            continue
         sleep(5)
         collect_assets()
         click_dialog()
         train()
         click_dialog()
         game()
-#         click_dialog()
-#         game()
+
+        learn_skill()
+        click_dialog()
+        
         for i in range(45):
             if getBonus():
                 break
@@ -270,7 +302,7 @@ for i in range(100000):
     except Exception as e:
         logger.error("error " + str(e))
         logger.error("需要重启模拟器")
-#         os.system("shutdown -r -t 120")
+        os.system("shutdown -r -t 120")
         if type(e) is airtest.core.error.AdbShellError:
             
             pass
